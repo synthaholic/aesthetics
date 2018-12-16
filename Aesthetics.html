@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>A E S T H E T I C S</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  
+  
+  
+<link href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css' rel='stylesheet' type='text/css'>
+
+	</head>
+	
+	<body bgcolor="#111122" style="background-color: black;">
+<h1 style="font-family: ARIAL BLACK; color: white;" >S Y N T H A H O L I C ' S  &nbsp &nbsp A E S T H E T I C S</h1>
+	
+		<canvas style="display:none" id="neonCanvas" width="800" height="800"></canvas>
+		
+<form id="form1" runat="server">
+
+
+ <div>
+  <label for="imgInp" class="btn" style="background-color: #CCCCCC; color: black;">[ Browse for Image ]</label>
+  <input id="imgInp"  style="visibility:hidden;" type="file">
+ </div>
+ <input type="button" id="animate" value="Animate" style="background-color: #44FF44" onclick="startAnimation();"><input onclick="stopAnimation();" style="background-color: #FF4444" type="button" id="stopanimation" value="Stop">
+ <br/><br/>
+  <label for="musicfile" class="btn" style="background-color: #CCCCCC; color: black;">[ Browse for Audio ]</label>
+  <input id="musicfile"  style="visibility:hidden;"type="file"><br/>
+ <audio controls id="musicplayer" autoplay></audio>
+</div>
+
+ 
+
+  <table align="top">
+  <tr valign="top">
+  
+  <tr valign="top"><td><table>
+  
+    <tr><td><font color = "Yellow">Top Text:</color></td></tr>
+	<tr><td><font color = "White">Text:</color></td><td width="200"><input id="toptext" style="background-color: #AAAAFF;" type="text" value="S Y N T H A H O L I C"></td></tr>
+	<tr><td><font color = "White">Colour:</color></td><td width="200"><input id="toptextcolour" type="text" value="#FFAAFF"></td></tr>
+
+  
+  <tr><td><font color = "White">Size:</color></td><td width="200"><div id="toptextslider"></div></td></tr>
+  <tr><td><font color = "White">Horizontal:</color></td><td width="200"><div id="toptextxslider"></div></td></tr>
+  <tr><td><font color = "White">Vertical:</color></td><td width="200"><div id="toptextyslider"></div></td></tr>
+  
+  </table>
+ </td><td>
+  <table>
+  <tr><td><font color = "Yellow">Bottom Text:</color></td></tr>
+  	<tr><td><font color = "White">Text:</color></td><td width="200"><input id="bottomtext" style="background-color: #AAAAFF;" type="text" value="S Y N T H W A V E"></td></tr>
+		<tr><td><font color = "White">Colour:</color></td><td width="200"><input id="bottomtextcolour" type="text" value="#FFFF22"></td></tr>
+  <tr><td><font color = "White">Size:</color></td><td width="200"><div id="bottomtextslider"></div></td></tr>
+  <tr><td><font color = "White">Horizontal:</color></td><td width="200"><div id="bottomtextxslider"></div></td></tr>
+  <tr><td><font color = "White">Vertical:</color></td><td width="200"><div id="bottomtextyslider"></div></td></tr>
+  </table>
+  
+  </td>
+  
+  <td>
+  <table>
+  <tr><td><font color = "Yellow">Sun:</color></td></tr>
+  <tr><td><font color = "White">Size:</color></td><td width="200"><div id="sunslider"></div></td></tr>
+  <tr><td><font color = "White">Horizontal:</color></td><td width="200"><div id="sunxslider"></div></td></tr>
+  <tr><td><font color = "White">Vertical:</color></td><td width="200"><div id="sunyslider"></div></td></tr>
+  </table>
+  
+  </td>
+  </tr>
+  <tr>
+   <td>
+  <table>
+  <tr><td><font color = "Yellow">Scan Lines:</color></td></tr>
+  <tr><td><font color = "White">Block size:</color></td><td width="200"><div id="scanslider"></div></td></tr>
+  <tr><td><font color = "White">Band size:</color></td><td width="200"><div id="scan2slider"></div></td></tr>
+  </table>
+  
+  
+  </td>
+  
+      <td>
+  <table>
+  <tr><td><font color = "Yellow">VHS Noise:</color></td></tr>
+  <tr><td><font color = "White">Frequency:</color></td><td width="200"><div id="noiseslider"></div></td></tr>
+  <tr><td><font color = "White">Max. tear:</color></td><td width="200"><div id="noise2slider"></div></td></tr>
+  <tr><td><font color = "White">Max. time:</color></td><td width="200"><div id="noise3slider"></div></td></tr>
+  </table>
+  
+  
+  </td>
+  
+  
+      <td>
+  <table>
+  <tr><td><font color = "Yellow">Hue range:</color></td></tr>
+  <tr><td><font color = "White">Range:</color></td><td width="200"><div id="hueslider"></div></td></tr>
+  <tr><td><font color = "White">Offset:</color></td><td width="200"><div id="hue2slider"></div></td></tr>
+  </table>
+  
+  
+  </td>
+  
+  
+  
+  </tr>
+   
+
+
+  </table>
+  
+
+
+ 
+ 
+ 
+
+
+  <table align="top" >
+
+ <td><canvas id="scanCanvas" width="800" height="800"></canvas></td><td style="display:none"><img id="blah" src="#" alt="your image"></td></tr>
+ </table>
+  
+  
+</form>
+	
+
+			<script>
+			
+  
+    $( function() {
+
+
+var $audio = $('#musicplayer');
+$('#musicfile').on('change', function(e) {
+  var target = e.currentTarget;
+  var file = target.files[0];
+  var reader = new FileReader();
+  
+  console.log($audio[0]);
+   if (target.files && file) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $audio.attr('src', e.target.result);
+            $audio.play();
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+$("#scanslider").slider(
+{
+            value:5,
+            min: 1,
+            max: 64,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#scanslider-value" ).html( ui.value );
+						loadGenerator();
+            }
+}
+);
+$( "#scanslider-value" ).html(  $('#scanslider').slider('value') );
+ 
+
+$("#scan2slider").slider(
+{
+            value:1,
+            min: 1,
+            max: 64,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#scan2slider-value" ).html( ui.value );
+							loadGenerator();
+            }
+}
+);
+$( "#scan2slider-value" ).html(  $('#scan2slider').slider('value') );
+  
+$("#hueslider").slider(
+{
+            value:180,
+            min: 0,
+            max: 360,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#hueslider-value" ).html( ui.value );
+						loadGenerator();
+            }
+}
+);
+$( "#hueslider-value" ).html(  $('#hueslider').slider('value') );
+ 
+
+$("#hue2slider").slider(
+{
+            value:180,
+            min: 90,
+            max: 360,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#hue2slider-value" ).html( ui.value );
+							loadGenerator();
+            }
+}
+);
+$( "#hue2slider-value" ).html(  $('#hue2slider').slider('value') );
+  
+
+
+
+$("#noiseslider").slider(
+{
+            value:1,
+            min: 0,
+            max: 20,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#noiseslider-value" ).html( ui.value );
+						loadGenerator();
+            }
+}
+);
+$( "#noiseslider-value" ).html(  $('#noiseslider').slider('value') );
+ 
+
+$("#noise2slider").slider(
+{
+            value:160,
+            min: 0,
+            max: 800,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#noise2slider-value" ).html( ui.value );
+							loadGenerator();
+            }
+}
+);
+$( "#noise2slider-value" ).html(  $('#noise2slider').slider('value') );
+  
+$("#noise3slider").slider(
+{
+            value:20,
+            min: 0,
+            max: 800,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#noise3slider-value" ).html( ui.value );
+							loadGenerator();
+            }
+}
+);
+$( "#noise3slider-value" ).html(  $('#noise3slider').slider('value') );
+  
+
+$( "#toptext" ).change(function() {
+ 
+ loadGenerator();
+ });
+ 
+
+$( "#toptextcolour" ).change(function() {
+ 
+ loadGenerator();
+ });
+ 
+ 
+$( "#bottomtext" ).change(function() {
+ 
+ loadGenerator();
+ });
+ 
+$( "#bottomtextcolour" ).change(function() {
+ 
+ loadGenerator();
+ });
+ 
+ 
+$("#toptextxslider").slider(
+{
+            value:50,
+            min: -1600,
+            max: 1600,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#toptextxslider-value" ).html( ui.value );
+						loadGenerator();
+            }
+}
+);
+$( "#toptextxslider-value" ).html(  $('#toptextxslider').slider('value') );
+ 
+
+$("#toptextyslider").slider(
+{
+            value:0,
+            min: -1600,
+            max: 1600,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#toptextyslider-value" ).html( ui.value );
+				loadGenerator();
+            }
+}
+);
+$( "#toptextyslider-value" ).html(  $('#toptextyslider').slider('value') );
+ 
+$("#toptextslider").slider(
+{
+            value:60,
+            min: 0,
+            max: 1600,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#toptextslider-value" ).html( ui.value );
+				loadGenerator();
+            }
+}
+);
+$( "#toptextslider-value" ).html(  $('#toptextslider').slider('value') );
+ 
+
+
+$("#bottomtextxslider").slider(
+{
+            value:64,
+            min: -800,
+            max: 800,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#bottomtextxslider-value" ).html( ui.value );
+				loadGenerator();
+            }
+}
+);
+$( "#bottomtextxslider-value" ).html(  $('#bottomtextxslider').slider('value') );
+ 
+
+$("#bottomtextyslider").slider(
+{
+            value:50,
+            min: -800,
+            max: 800,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#bottomtextyslider-value" ).html( ui.value );
+				loadGenerator();
+            }
+}
+);
+$( "#bottomtextyslider-value" ).html(  $('#bottomtextyslider').slider('value') );
+ 
+
+$("#bottomtextslider").slider(
+{
+            value:64,
+            min: 0,
+            max: 800,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#bottomtextslider-value" ).html( ui.value );
+				loadGenerator();
+            }
+}
+);
+$( "#bottomtextslider-value" ).html(  $('#bottomtextslider').slider('value') );
+ 
+
+
+$("#sunxslider").slider(
+{
+            value:400,
+            min: -800,
+            max: 800,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#sunxslider-value" ).html( ui.value );
+				loadGenerator();
+            }
+}
+);
+$( "#sunxslider-value" ).html(  $('#sunxslider').slider('value') );
+ 
+
+$("#sunyslider").slider(
+{
+            value:400,
+            min: -800,
+            max: 800,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#sunyslider-value" ).html( ui.value );
+            loadGenerator();
+			}
+}
+);
+$( "#sunyslider-value" ).html(  $('#sunyslider').slider('value') );
+ 
+
+$("#sunslider").slider(
+{
+            value:150,
+            min: 0,
+            max: 800,
+            step: 5,
+            slide: function( event, ui ) {
+                $( "#sunslider-value" ).html( ui.value );
+            loadGenerator();
+			}
+}
+);
+$( "#sunslider-value" ).html(  $('#sunslider').slider('value') );
+ 
+
+
+
+
+
+ } );
+
+
+
+
+  
+						function loadGenerator() {
+		img = new Image();
+		img.src=$('#blah').attr('src');
+
+			
+				ctx.drawImage(img , 0, 0, img.width, img.height,0,0, 800,800);
+				
+
+					tinge(ctx, cnv, img);
+					drawSun(ctx, cnv, img);
+					scanLines(ctx, cnv, img);
+					
+				
+				jerkLines();
+  
+  
+			}
+			
+			
+			var animation 
+			function startAnimation() {
+			loadGenerator();
+			animation = setInterval(jerkLines, 1000/25)
+			}
+			
+			
+			function stopAnimation() {
+				clearInterval(animation);
+		}
+			
+			var img = new Image();
+
+	  
+			function readURL(input) {
+
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      $('#blah').attr('src', e.target.result);
+	  
+	  
+  		$('#blah').on("load",  function() {	
+	loadGenerator();
+	});
+
+
+
+
+    }
+
+    reader.readAsDataURL(input.files[0]);
+
+				
+
+				
+  }
+}
+
+$("#generate").click(function() {
+	loadGenerator();
+});
+
+$("#imgInp").change(function() {
+  readURL(this);
+});
+
+function timerMethod() {
+    runCount++;
+    if(runCount > 100) clearInterval(timerId);
+
+}
+
+
+			var alpha=0,p=0;
+			var runCount = 0;    
+
+
+			
+			
+			
+				var cnv = document.getElementById("neonCanvas");
+				var ctx = cnv.getContext("2d");
+				
+
+				
+				
+				
+
+			
+			
+			
+			
+			
+			
+
+
+
+
+				
+	
+						
+			function hsl2rgb(H,S,L) 
+				{
+									
+						C = (1.0 - Math.abs(2.0*L - 1.0)) * S;
+						X = C * (1.0 - Math.abs(((H/60.0) % 2.0)-1.0));
+						m = L - C/2.0;
+
+						if (H < 60.0) {
+							r_new = C;
+							g_new = X;
+							b_new = 0.0;
+						} else if (H < 120.0)
+						{
+							r_new = X;
+							g_new = C;
+							b_new = 0.0;
+						} else if (H < 180.0) {
+							r_new = 0.0;
+							g_new = C;
+							b_new = X;
+						} else if (H < 240.0) {
+							r_new = 0.0;
+							g_new = X;
+							b_new = C;
+						} else if (H < 300.0) {
+							r_new = X;
+							g_new = 0.0;
+							b_new = C;
+						} else {
+							r_new = C;
+							g_new = 0.0;
+							b_new = X;
+						}
+						
+						r_final = (r_new + m) * 255.0;
+						g_final = (g_new + m) * 255.0;
+						b_final = (b_new + m) * 255.0;
+				
+						return [r_final, g_final, b_final];
+				
+				}
+				
+				function rgb2hsl(red,green,blue) 
+				{
+						var r_ = red/255.0;
+						var g_ = green/255.0;
+						var b_ = blue/255.0;
+						
+						var CM= Math.max(r_, g_, b_);
+						var Cm = Math.min(r_, g_, b_);
+						
+						var delta = CM - Cm;
+						
+						var H = 0.0;
+						
+						
+						
+						
+						if (r_ >= b_ && b_ > g_) 
+						{						
+							H = 6.0 - ((b_ - g_) / (r_ - g_));
+						}
+						else
+						if (b_ > r_  && r_ >= g_) 
+						{
+							H = 4.0 + ((r_ - g_) / (b_ - g_));
+						}
+						else
+						if (b_ > g_ && g_ > r_) 
+						{
+							H = 4.0 - ((g_ - r_) / (b_ - r_));
+						}
+						else
+						if (g_ >= b_ && b_ > r_) 
+						{
+							H = 2.0 + ((b_ - r_) / (g_ - r_));
+						}
+						else
+						if (g_ > r_ && r_ >= b_) {
+							H = 2.0 - ((r_ - b_) / (g_ - b_));
+						}
+						else
+						if (r_ >= g_ && g_ >= b_) {
+							H =  (g_ - b_) / (r_ - b_);
+		
+						}
+						
+						
+						H = H * 60.0;
+						
+						if (H < 0) H = H + 360.0;
+						
+						var S = 0.0;
+						
+						var L = (CM + Cm) / 2.0;
+						
+						if (delta != 0) {
+							S = delta / (1.0-Math.abs(2.0*L - 1.0));
+						}
+
+if (isNaN(H)) { 
+H=0;
+}
+						
+
+						return [H, S, L];
+						
+						
+						
+
+						}
+
+				function scanLines(ctx, cnv, img)
+				{
+					
+					ctx.drawImage(cnv, 0, 0);
+					
+					
+					var rgb= ctx.getImageData(0,0, cnv.width, cnv.height);
+					var red, green, blue, ySeedm, y, x, i;
+				
+					for (ySeed=0; ySeed < cnv.height ; ySeed=ySeed+parseInt($('#scanslider').slider('value'))) {					
+						
+						for (y=ySeed; y < ySeed+parseInt($('#scan2slider').slider('value')) ; y++) {					
+						
+							for (x=0; x < cnv.width << 2 ; x=x+4) {
+
+								i= (y*(cnv.width<<2)) + x;
+								
+								red = rgb.data[i];
+								green = rgb.data[i + 1];
+								blue = rgb.data[i + 2];
+								
+								rgb.data[i] = 0;
+								rgb.data[i+1] = 0;
+								rgb.data[i+2] = 0;
+
+							}		
+							
+						}
+					}
+					ctx.putImageData(rgb, 0, 0);
+		
+				
+				
+				}
+					
+					var snow = false;
+					var snowCounter = 0;
+				function jerkLines()
+				{
+				
+							var cnvScan = document.getElementById("scanCanvas");
+					var ctxScan = cnvScan.getContext("2d");
+		
+				
+		
+					ctxScan.drawImage(cnv, 0, 0);
+					
+					
+					var rgbScan = ctxScan.getImageData(0,0, cnv.width, cnv.height);
+					var rgb = ctx.getImageData(0,0, cnv.width, cnv.height);
+					
+					var red, green, blue, ySeedm, y, x, i;
+					var sign, offset, offset0, offset1;
+					var tear = false;
+					var tearCount = 0;
+					
+					if ((Math.random()*250 <= parseInt($('#noiseslider').slider('value'))) && snow == false ) {
+						snow=true;
+						snowCounter = Math.random()*parseInt($('#noise3slider').slider('value'));
+						tear=true;
+							tearCount = Math.random()*parseInt($('#noise2slider').slider('value'));
+						
+}					
+
+if (snow) {
+	snowCounter--;
+	
+	if (snowCounter<=1)
+	{
+	snow=false;
+	snowCounter=0;
+	tear=false;
+	}
+}
+
+					for (y=0; y< cnv.height ; y++) {					
+					
+					
+					if ((Math.random()*1888 <= 2) &&  tear==false) {
+						tear=true;
+							tearCount = Math.random()*100;
+								
+				}
+					
+					if (Math.random() > 0.5){ sign = 1; } else {sign = -1 };
+					offset1 = Math.sin(y/cnv.height*2*3.14159265)*4;
+					offset1= offset1 << 2;
+					
+					if (tear)
+					{
+						tearCount--;
+						
+						if (tearCount<=1)
+						{
+							tear=false;
+							tearCount = 0 ;
+						}
+					} else {
+						offset1=0;
+					}
+				
+					
+		
+					
+					offset0 = ((Math.random()*2+(Math.random()*snowCounter*10)) << 2 )* sign ;
+							offset= offset0+offset1;
+							
+							for (x=0; x < cnv.width << 2 ; x=x+4) {
+
+								i= (y*(cnv.width<<2)) + x;
+								
+								red = rgb.data[i + offset];
+								green = rgb.data[i + 1 + offset];
+								blue = rgb.data[i + 2 + offset];
+	if (snow) {
+	var rnd =  (Math.random() * 255);
+	red0=red;
+					red=(red << 1) | rnd;
+						green=(green << 1) | rnd;
+						blue= (blue << 1) | rnd;
+}
+	
+								rgbScan.data[i] = red;
+								rgbScan.data[i+1] = green;
+								rgbScan.data[i+2] = blue;
+
+							}		
+							
+					}
+					ctxScan.putImageData(rgbScan, 0, 0);
+	
+
+		
+				}
+			
+				function drawSun(ctx, cnv,img) {
+	alpha=0.85;			
+
+												ctx.font = $('#toptextslider').slider('value') + "px Streamster";
+												
+      //ctx.fillStyle = "rgba(255,200,255," + alpha + ")";
+ ctx.fillStyle = $('#toptextcolour').val();
+	 	 
+	// ctx.strokeStyle = 'rgba(255,255,0,0)';
+var midx=800/2;
+midx= midx  - (    parseInt($('#toptext').val().length) * parseInt($('#toptextslider').slider('value')/1.5) /2 );
+ctx.fillText($('#toptext').val(), midx  + parseInt($('#toptextxslider').slider('value'))  , 100 + parseInt($('#toptextyslider').slider('value')) ); 
+
+												ctx.font = $('#bottomtextslider').slider('value') + "px AXIS";
+     // ctx.fillStyle = "rgba(255,255,22," + alpha + ")";
+ ctx.fillStyle = $('#bottomtextcolour').val();	   
+	  // ctx.strokeStyle = 'rgba(255,255,0,0)';
+
+midx=800/2;
+midx= midx  - (    parseInt($('#bottomtext').val().length) * parseInt($('#bottomtextslider').slider('value')/1.5) /2 );
+
+
+ctx.fillText($('#bottomtext').val(), midx  + parseInt($('#bottomtextxslider').slider('value'))  , 700 + parseInt($('#bottomtextyslider').slider('value')) ); 
+
+
+						      ctx.beginPath();
+
+var cx=parseInt($('#sunxslider').slider('value'))
+var cy = parseInt($('#sunyslider').slider('value')) ;
+var cr = parseInt($('#sunslider').slider('value'));
+
+      ctx.arc(cx, cy, cr, Math.PI*0, Math.PI*2, false );
+  p=p+0.2;
+alpha=1.0;  
+  ctx.fillStyle = "rgba(255,255,50," + alpha + ")";
+  
+  
+        ctx.fill();
+      ctx.lineWidth = 1;
+  
+  ctx.stroke();
+	
+					var rgb = ctx.getImageData(0,0, cnv.width, cnv.height);
+					var pix=0,x=0, y=0, x0=0,y0=0,x1=0,y1=0;
+					x0=cx-(cr);
+					x1=x0+(cr<<1);
+					y0=cy-(cr);
+					y1=y0+(cr<<1);
+					var maxroll=cr*0.35,maxroll2=0;
+					
+					for (y=y1; y >=0; y--) {
+maxroll=maxroll+1;
+maxroll2=5;
+						for (x=x0; x < x1; x++) {
+							pix=((y)*(cnv.width<<2))+(x<<2);
+							
+								r=rgb.data[pix+0];
+								g=rgb.data[pix+1];
+								b=rgb.data[pix+2];
+												
+							var HSL = rgb2hsl(r,g,b);
+							H=HSL[0];
+							S=HSL[1];
+							L=HSL[2];
+							
+						
+
+				if (H > 40 && H < 80 ) {
+				
+					if (((y-y0) % maxroll) < maxroll * 0.85) {
+						H=30*((y-y0)/cr);
+						S=0.65;
+						L=1;
+					} else 
+					{
+						H=0;
+						S=0;
+						L=1;
+					}
+						
+	var RGB = hsl2rgb(H,L,S);
+							
+						var r_final = RGB[0];
+						var g_final = RGB[1];
+						var b_final = RGB[2];
+						
+	
+						
+							rgb.data[pix+0]=r_final;
+								rgb.data[pix+1]=g_final;
+								rgb.data[pix+2]=b_final;
+						
+					}
+					}}
+				ctx.putImageData(rgb, 0, 0);
+				}
+					
+					
+			
+				function tinge(ctx,cnv, img) {
+					var rgb = ctx.getImageData(0,0, cnv.width, cnv.height);
+					var hue1 = parseInt($('#hueslider').slider('value'));
+					var hue2 = parseInt($('#hue2slider').slider('value'));
+					
+					for (var i=0; i < rgb.data.length; i=i+4) {					
+						var red = rgb.data[i];
+						var green = rgb.data[i+1];
+						var blue = rgb.data[i+2];
+						
+						var HSL = rgb2hsl(red, green, blue);
+						var H = HSL[0];
+						var S = HSL[1];
+						var L = HSL[2];
+			
+						H_mix =((i / (cnv.width << 2))  / cnv.height) * hue1  +hue2;
+						H = H_mix;
+						S = 0.5;
+						var RGB = hsl2rgb(H, S, L);
+										
+						var r_final = RGB[0];
+						var g_final = RGB[1];
+						var b_final = RGB[2];
+						
+						
+						rgb.data[i] = r_final;
+						rgb.data[i+1] = g_final
+						rgb.data[i+2] = b_final;
+					}
+					ctx.putImageData(rgb, 0, 0);
+				
+				}
+				
+			
+			</script>	
+		  
+	</body>
+</html>
